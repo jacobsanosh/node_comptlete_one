@@ -14,7 +14,7 @@
                         <%= ele.title%>
                     </h2>
                     <p>
-                        <%= ele.note%>
+                        <%= ele.note.substring(0,100)+'...'%><a href="/post/<%=ele.title%>">Read more</a>
                     </p>
                     <%});}%>
 

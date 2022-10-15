@@ -2,10 +2,13 @@ const express = require('express')
 const bdparse = require('body-parser')
 const app = express()
 const port = 3000;
-app.use(bdparse.urlencoded({ extended: true }))
-app.use(express.static('public'))
-app.set('view engine', 'ejs')
 
+
+app.use(bdparse.urlencoded({ extended: true }))
+app.use(express.static(__dirname + '/public'))
+app.set('view engine', 'ejs')
+    //lodash is used to to remove unwanted thing from params link _~!@#$%$^@ like these
+const _ = require('lodash');
 //decalring an  global variable to store the data from compose 
 let note_arr = [];
 
@@ -15,6 +18,7 @@ const about_content = "this is an about section"
 const contact_content = "this is an contact section"
 app.get('/', (req, res) => {
     //get code here
+
     res.render('home', { home_c: home_content, res: note_arr });
 })
 
@@ -57,12 +61,13 @@ app.post('/compose', (req, res) => {
 app.get('/post/:values', (req, res) => {
     // console.log(req.params.values); //it will print anything
     let post = req.params.values;
-    console.log(post)
+    console.log("params" + post)
     note_arr.forEach((ele) => {
 
-        if ((ele.title).toLowerCase() === post.toLowerCase()) {
-            //res.redirect('/',ele);
+        if (_.toLower(ele.title) == _.toLower(post)) {
+            // res.redirect('/',ele);
             console.log("match found");
+            res.render('post', { res: ele });
         }
 
     })
